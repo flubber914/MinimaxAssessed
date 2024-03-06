@@ -89,7 +89,7 @@ to-report minimax [board]
   repeat 3 [
     set o 0
     repeat 3 [
-      show item i item o board
+
       if item i item o board = "_" [
         ;show replace-in-board (position space row) (position row board) board "x"
         set new-board replace-in-board i o board "x"
