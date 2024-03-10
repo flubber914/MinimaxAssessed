@@ -46,7 +46,7 @@ to play
        set shape "circle 2"
       ]
     set current_board replace-in-board mouse-xcor mouse-ycor current_board "o"
-    set turns (turns + 1)
+    set turns (turns + 2)
     if has-any-player-won? evaluate current_board [show "player won" stop]
     if not moves-left? current_board [show "draw" stop]
     ; AI places a cross
@@ -110,7 +110,7 @@ end
 to-report Max_Value [board depth]
   let score evaluate board
   if has-any-player-won? score [report calculate-utility score depth]
-  if depth = 9 [show "hi" report 1000]
+  if depth = 9 [report 15]
   let v -1000
   let new-v 0
   let i 0
@@ -136,7 +136,7 @@ end
 to-report Min_Value [board depth]
   let score evaluate board
   if has-any-player-won? score [report calculate-utility score depth]
-  if depth = 9 [show "hi" report -1000]
+  if depth = 9 [report -15]
   let v 1000
   let new-v 0
   let i 0
