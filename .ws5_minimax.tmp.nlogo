@@ -88,11 +88,9 @@ to-report minimax [board]
   repeat 3 [
     set o 0
     repeat 3 [
-      show item i item o board
       if item i item o board = "_" [
         ;show replace-in-board (position space row) (position row board) board "x"
         set new-board replace-in-board i o board "x"
-        show new-board
         set this-depth Min_Value new-board (0 + turns)
         if best-depth < this-depth [
           set best-depth this-depth
@@ -110,7 +108,7 @@ end
 to-report Max_Value [board depth]
   let score evaluate board
   if has-any-player-won? score [report calculate-utility score depth]
-  if depth = 9 [report 15]
+  if depth = 9 [report ]
   let v -1000
   let new-v 0
   let i 0

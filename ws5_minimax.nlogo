@@ -108,7 +108,7 @@ end
 to-report Max_Value [board depth]
   let score evaluate board
   if has-any-player-won? score [report calculate-utility score depth]
-  if depth = 9 [report 15]
+  if depth = 9 [report 0]
   let v -1000
   let new-v 0
   let i 0
@@ -134,7 +134,7 @@ end
 to-report Min_Value [board depth]
   let score evaluate board
   if has-any-player-won? score [report calculate-utility score depth]
-  if depth = 9 [report -15]
+  if depth = 9 [report 0]
   let v 1000
   let new-v 0
   let i 0
