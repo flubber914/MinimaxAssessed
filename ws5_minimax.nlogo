@@ -27,7 +27,6 @@ to setup
   ; You might want to use these two line to help debug your code:
   ;let best_move find-best-move current_board;
   ;show (word "The selected move is :" best_move)
-  set turns 0
   reset-ticks
 end
 
@@ -47,7 +46,7 @@ to play
        set shape "circle 2"
       ]
     set current_board replace-in-board mouse-xcor mouse-ycor current_board "o"
-    set turns (turns + 1)
+    set turns (turns + 2)
     if has-any-player-won? evaluate current_board [show "player won" stop]
     if not moves-left? current_board [show "draw" stop]
     ; AI places a cross
@@ -81,7 +80,7 @@ end
 to-report minimax [board]
   ;;;;
   let best (list -1 -1)
-  let best-depth 100
+  let best-depth -1000
   let this-depth 0
   let i 0
   let o 0
@@ -89,13 +88,11 @@ to-report minimax [board]
   repeat 3 [
     set o 0
     repeat 3 [
-      show item i item o board
       if item i item o board = "_" [
         ;show replace-in-board (position space row) (position row board) board "x"
         set new-board replace-in-board i o board "x"
-        show new-board
         set this-depth Min_Value new-board (0 + turns)
-        if best-depth > this-depth [
+        if best-depth < this-depth [
           set best-depth this-depth
           set best (list (i) (o))
         ]
@@ -111,7 +108,7 @@ end
 to-report Max_Value [board depth]
   let score evaluate board
   if has-any-player-won? score [report calculate-utility score depth]
-  if depth = 9 [show "hi" report 0]
+  if depth = 9 [report 15]
   let v -1000
   let new-v 0
   let i 0
@@ -137,7 +134,7 @@ end
 to-report Min_Value [board depth]
   let score evaluate board
   if has-any-player-won? score [report calculate-utility score depth]
-  if depth = 9 [show "hi" report 0]
+  if depth = 9 [report -15]
   let v 1000
   let new-v 0
   let i 0
@@ -147,7 +144,7 @@ to-report Min_Value [board depth]
     set o 0
     repeat 3 [
       if item i item o board = "_" [
-        set new-board replace-in-board (i) (o) board "x"
+        set new-board replace-in-board (i) (o) board "o"
         set new-v Max_Value new-board (depth + 1)
         if v > new-v [
           set v new-v
@@ -234,10 +231,10 @@ end
 ;=================================================================
 @#$#@#$#@
 GRAPHICS-WINDOW
-209
-10
-667
-469
+200
+11
+658
+470
 -1
 -1
 150.0
