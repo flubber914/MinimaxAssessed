@@ -47,7 +47,7 @@ to play
        set shape "circle 2"
       ]
     set current_board replace-in-board mouse-xcor mouse-ycor current_board "o"
-    set turns (turns + 1)
+    set turns turns + 1
     if has-any-player-won? evaluate current_board [show "player won" stop]
     if not moves-left? current_board [show "draw" stop]
     ; AI places a cross
@@ -81,29 +81,31 @@ end
 to-report minimax [board]
   ;;;;
   let best (list -1 -1)
-  let best-depth 100
+  ;let best-depth 100
   let this-depth 0
   let i 0
   let o 0
+  let allActions (list)
+  let allDepths (list)
   let new-board board
   repeat 3 [
+    ;set best-depth 100
     set o 0
     repeat 3 [
-
       if item i item o board = "_" [
         ;show replace-in-board (position space row) (position row board) board "x"
         set new-board replace-in-board i o board "x"
-        show new-board
-        set this-depth Min_Value new-board (0 + turns)
-        if best-depth > this-depth [
-          set best-depth this-depth
-          set best (list (i) (o))
-        ]
+        set this-depth Min_Value new-board (0 )
+        ;set best (list (i) (o))
+        set allDepths lput this-depth allDepths
+        set allActions lput (list (i) (o)) allActions
       ]
       set o o + 1
     ]
+    show i
     set i i + 1
   ]
+  set best item (position max(allDepths) allDepths) allActions
   ;;;;
   report best
 end
@@ -147,7 +149,7 @@ to-report Min_Value [board depth]
     set o 0
     repeat 3 [
       if item i item o board = "_" [
-        set new-board replace-in-board (i) (o) board "x"
+        set new-board replace-in-board (i) (o) board "o"
         set new-v Max_Value new-board (depth + 1)
         if v > new-v [
           set v new-v
